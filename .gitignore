@@ -7,6 +7,7 @@ __pycache__/
 *.html
 .idea
 .idea/.gitignore
+.idea/*
 *.xml
 
 # Environments
