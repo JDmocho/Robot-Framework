@@ -17,11 +17,11 @@ ${selector_input_password}    name:my-douglas-register-password
 ${selector_input_repassword}  name:my-douglas-register-password-repeat
 ${selector_input_email}       name:my-douglas-register-email
 
-${valid_name}   Józefina
+${valid_name}   Krystyna
 ${valid_surname}   Kowalska
 ${valid_password}   Tester2020
 ${valid_repassword}   Tester2020
-${valid_email}    jozefina@gmail.com
+${valid_email}    krystyna@gmail.com
 
 
 ${name_invalid_lenght}         Imię: To pole nie może pozostać puste.
@@ -100,7 +100,7 @@ Test 5 Filed only repeat password should fail
     Page Should Contain    ${email_invalid_lenght}
     Close All Browsers
 
-Test 5 Filed only email should fail
+Test 6 Filed only email should fail
     Open Browser and Main Page
     Acept Cookies Policy
     Go to Registration Page
@@ -112,26 +112,26 @@ Test 5 Filed only email should fail
     Page Should Contain    ${repwd_invalid_lenght}
     Close All Browsers
 
-Test 6 Data-driven invalid name
+Test 7 Data-driven invalid name
     [Template]     Registration with invalid name should fail
     123456
     1q2w3e4r5t6y
     !@@$#$^%
 
-Test 7 Data-driven invalid surname
+Test 8 Data-driven invalid surname
     [Template]     Registration with invalid surname should fail
     123456
     1q2w3e4r5t6y
     !@@$#$^%
 
-Test 8 Data-driven invalid password and repeat password
+Test 9 Data-driven invalid password and repeat password
     [Template]     Registration with invalid password should fail
     ${EMPTY}                ${valid_repassword}
     ${valid_password}       ${EMPTY}
     12345                   ${valid_repassword}
     ${valid_password}       1234
 
-Test 9 Data-driven invalid email
+Test 10 Data-driven invalid email
     [Template]     Registration with invalid email should fail
     {EMPTY}
     @
