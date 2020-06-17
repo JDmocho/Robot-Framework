@@ -4,7 +4,6 @@ __pycache__/
 *$py.class
 *.log
 *.png
-*.html
 .idea
 .idea/.gitignore
 .idea/*
