@@ -1,6 +1,14 @@
 *** Settings ***
+Documentation   This is a test suite to test signup functionality on the page.
+Metadata        Version 1.0
+Metadata        Author  Joanna Dmochowska
+
 Library     SeleniumLibrary
 
+Default Tags    smoke
+
+Test Setup      Go to the sign up page
+Test Teardown   Close All Browsers
 
 *** Variables ***
 ${browser}          Firefox
@@ -37,101 +45,78 @@ ${email_invalid_format}        Adres e-mail: Niepoprawny format
 
 
 *** Test Case ***
-Test 1 Empty form should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
-    Register button
+Test 1 Sign up user with empty form
+	Click Register Button
     Page Should Contain    ${name_invalid_lenght}
     Page Should Contain    ${surname_invalid_lenght}
     Page Should Contain    ${pwd_invalid_lenght}
     Page Should Contain    ${repwd_invalid_lenght}
     Page Should Contain    ${email_invalid_lenght}
-    Close All Browsers
 
-Test 2 Filed only name should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+Test 2 Sign up user with valid name and invalid surname, password, repasword, email
     Input Text   ${selector_input_name}     ${valid_name}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     Page Should Contain    ${surname_invalid_lenght}
     Page Should Contain    ${pwd_invalid_lenght}
     Page Should Contain    ${repwd_invalid_lenght}
     Page Should Contain    ${email_invalid_lenght}
-    Close All Browsers
 
-Test 3 Filed only surname should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+
+Test 3 Sign up user with valid surname and invalid name, password, repasword, email
     Input Text   ${selector_input_surname}    ${valid_surname}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     Page Should Contain    ${name_invalid_lenght}
     Page Should Contain    ${pwd_invalid_lenght}
     Page Should Contain    ${repwd_invalid_lenght}
     Page Should Contain    ${email_invalid_lenght}
-    Close All Browsers
 
-Test 4 Filed only password should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+Test 4 Sign up user with valid password and invalid surname, password, email
     Input Text     ${selector_input_password}    ${valid_password}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     Page Should Contain    ${name_invalid_lenght}
     Page Should Contain    ${surname_invalid_lenght}
     Page Should Contain    ${repwd_invalid_lenght}
     Page Should Contain    ${email_invalid_lenght}
-    Close All Browsers
 
-Test 5 Filed only repeat password should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+Test 5 Sign up user with valid repassword and invalid name, surname, password, email
     Input Text     ${selector_input_repassword}   ${valid_repassword}
-    Register button
+    Click Register Button
     Page Should Contain    ${name_invalid_lenght}
     Page Should Contain    ${surname_invalid_lenght}
     Page Should Contain    ${pwd_invalid_lenght}
     Page Should Contain    ${email_invalid_lenght}
-    Close All Browsers
 
-Test 6 Filed only email should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+Test 6 Sign up user with valid email and invalid name, surname, password, repassword
     Input Text       ${selector_input_email}     ${valid_email}
-    Register button
+    Click Register Button
     Page Should Contain    ${name_invalid_lenght}
     Page Should Contain    ${surname_invalid_lenght}
     Page Should Contain    ${pwd_invalid_lenght}
     Page Should Contain    ${repwd_invalid_lenght}
-    Close All Browsers
 
-Test 7 Data-driven invalid name
+Test 7 Sign up user with invalid name
     [Template]     Registration with invalid name should fail
     123456
     1q2w3e4r5t6y
     !@@$#$^%
 
-Test 8 Data-driven invalid surname
+Test 8 Sign up user with invalid surname
     [Template]     Registration with invalid surname should fail
     123456
     1q2w3e4r5t6y
     !@@$#$^%
 
-Test 9 Data-driven invalid password and repeat password
+Test 9 Sign up user with invalid password and repassword
     [Template]     Registration with invalid password should fail
     ${EMPTY}                ${valid_repassword}
     ${valid_password}       ${EMPTY}
     12345                   ${valid_repassword}
     ${valid_password}       1234
 
-Test 10 Data-driven invalid email
+Test 10 Sign up user with invalid email
     [Template]     Registration with invalid email should fail
     {EMPTY}
     @
@@ -140,8 +125,12 @@ Test 10 Data-driven invalid email
     @bleble.com
 
 *** Keywords ***
+Go to the sign up page
+	Open Browser and go to Main Page
+	Acept Cookies Policy
+	Go to Registration Page
 
-Open Browser and Main Page
+Open Browser and go to Main Page
     Open Browser   about:blank   ${browser}
     Go to    ${url_douglas}
 
@@ -153,69 +142,58 @@ Go to Registration Page
     Wait Until Element Is Visible   ${selector_registration_btn}
     Click Element  ${selector_registration_btn}
 
-Register button
+Click Register Button
     Click Button      ${selector_submit_btn}
 
 Registration with invalid name should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+    Go to the sign up page
     [Arguments]    ${bad_name}
     Input Text   ${selector_input_name}        ${bad_name}
     Input Text   ${selector_input_surname}     ${valid_surname}
     Input Text   ${selector_input_password}    ${valid_password}
     Input Text   ${selector_input_repassword}  ${valid_repassword}
     Input Text   ${selector_input_email}       ${valid_email}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     Page Should Contain   ${name_invalid_format}
-    Close All Browsers
+
 
 Registration with invalid surname should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+    Go to the sign up page
     [Arguments]    ${bad_surname}
     Input Text   ${selector_input_name}        ${valid_name}
     Input Text   ${selector_input_surname}     ${bad_surname}
     Input Text   ${selector_input_password}    ${valid_password}
     Input Text   ${selector_input_repassword}  ${valid_repassword}
     Input Text   ${selector_input_email}       ${valid_email}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     Page Should Contain   ${surname_invalid_format}
-    Close All Browsers
 
 Registration with invalid password should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+    Go to the sign up page
     [Arguments]    ${bad_password}   ${bad_repassword}
     Input Text   ${selector_input_name}        ${valid_name}
     Input Text   ${selector_input_surname}     ${valid_surname}
     Input Text   ${selector_input_password}    ${bad_password}
     Input Text   ${selector_input_repassword}  ${bad_repassword}
     Input Text   ${selector_input_email}       ${valid_email}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     ${error_msg}    Get Text    ${selector_error_div}
     log to console  ${error_msg}
     Should Contain Any   ${error_msg}   ${pwd_invalid_lenght}   ${repwd_invalid_lenght}   ${repwd_dont_match}
-    Close All Browsers
 
 Registration with invalid email should fail
-    Open Browser and Main Page
-    Acept Cookies Policy
-    Go to Registration Page
+    Go to the sign up page
     [Arguments]    ${bad_email}
     Input Text   ${selector_input_name}        ${valid_name}
     Input Text   ${selector_input_surname}     ${valid_surname}
     Input Text   ${selector_input_password}    ${valid_password}
     Input Text   ${selector_input_repassword}  ${valid_repassword}
     Input Text   ${selector_input_email}       ${bad_email}
-    Register button
+    Click Register Button
     Wait Until Element Is Visible     ${selector_error_div}
     ${error_msg}    Get Text    ${selector_error_div}
     log to console  ${error_msg}
     Should Contain Any   ${error_msg}   ${email_invalid_lenght}   ${email_invalid_format}
-    Close All Browsers
